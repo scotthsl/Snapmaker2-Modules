@@ -23,7 +23,29 @@
 #define TEMP_TABLE_NTC3950_LEN  (sizeof(temptable_ntc3950)/(sizeof(temptable_ntc3950[0])))
 #define TEMP_TABLE_NTC_WMT7029_LEN  (sizeof(temptable_ntc_wmt7029)/(sizeof(temptable_ntc_wmt7029[0])))
 #define TEMP_TABLE_PT100_LEN  (sizeof(temptable_pt100)/(sizeof(temptable_pt100[0])))
+#define TEMP_TABLE_LIANPIN_LEN  (sizeof(temptable_lianpin)/(sizeof(temptable_lianpin[0])))
 #define OV(N) ((N) * (OVERSAMPLENR))
+
+const int32_t temptable_lianpin[][2] = {
+  { OV(4),    300 },
+  { OV(231),  120 },
+  { OV(950),   60 },
+  { OV(1071),  55 },
+  { OV(1203),  50 },
+  { OV(1349),  45 },
+  { OV(1508),  40 },
+  { OV(1678),  35 },
+  { OV(1859),  30 },
+  { OV(2048),  25 },
+  { OV(2243),  20 },
+  { OV(2439),  15 },
+  { OV(2634),  10 },
+  { OV(2823),   5 },
+  { OV(3003),   0 },
+  { OV(3772), -30 },
+  { OV(4085), -50 },
+};
+
 const int32_t temptable_ntc3950[][2] = {
   { OV(   4), 938 },
   { OV(  91), 300 },
@@ -212,6 +234,10 @@ float32 TempTableCalcCurTemp(uint32_t u32Raw, thermistor_type_e thermistor) {
         case THERMISTOR_PT100:
             temptable = temptable_pt100;
             u32TableLen = TEMP_TABLE_PT100_LEN;
+            break;
+        case THERMISTOR_LIANPIN:
+            temptable = temptable_lianpin;
+            u32TableLen = TEMP_TABLE_LIANPIN_LEN;
             break;
         default:
             temptable = temptable_ntc3950;
